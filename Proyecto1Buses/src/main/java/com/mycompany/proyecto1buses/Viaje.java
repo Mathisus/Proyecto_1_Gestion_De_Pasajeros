@@ -50,9 +50,9 @@ public class Viaje {
     }
     
     public String toString() {
-        return "Destino: " + destino + "\n";
-                + "Fecha y hora: " + fechaHora + "\n";
-                + "Cupos Disponibles: " + cuposDisponibles + "\n";
+        return "Destino: " + destino + "\n"
+                + "Fecha y hora: " + fechaHora + "\n"
+                + "Cupos Disponibles: " + cuposDisponibles + "\n"
                 + "Precio: " + precio;
     }
 }
