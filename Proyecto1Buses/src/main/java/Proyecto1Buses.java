@@ -11,6 +11,8 @@ public class Proyecto1Buses {
     private static List<Ciudad> ciudades = new ArrayList<>();
     private static List<Terminal> terminales = new ArrayList<>();
     private static List<Viaje> viajes = new ArrayList<>();
+    private static List<Pasajero> pasajeros = new ArrayList<>();
+
 
     public static void main(String[] args) throws FileNotFoundException {
         // Leemos archivo "ciudadesDestinos.txt"
@@ -108,7 +110,7 @@ public class Proyecto1Buses {
         String rut = scanner.nextLine();
 
         // Buscar o crear pasajero
-        Pasajero pasajero = buscarPasajero(nombre, apellido, rut);
+        Pasajero pasajero = buscarPasajero(rut);
         if (pasajero == null) {
             pasajero = new Pasajero(nombre, apellido, rut);
         }
@@ -225,6 +227,15 @@ public class Proyecto1Buses {
     }
     return null;
     }
+    
+    private static Terminal buscarTerminal(List<Terminal> terminales, String nombre) {
+    for (Terminal terminal : terminales) {
+        if (terminal.getNombre().equals(nombre)) {
+            return terminal;
+        }
+    }
+    return null;
+}
 
     private static void leerCiudadesTerminalesHorarios(String archivo) throws FileNotFoundException {
     try (Scanner scanner = new Scanner(new File(archivo))) {
