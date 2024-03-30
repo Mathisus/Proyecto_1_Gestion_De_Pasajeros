@@ -1,4 +1,4 @@
-package com.mycompany.proyecto1buses;
+
 
 /**
  *
@@ -9,13 +9,11 @@ public class Pasajero {
     private String nombre;
     private String apellido;
     private String rut;
-    private String asiento;
 
-    public Pasajero(String nombre, String apellido, String rut, String asiento) {
+    public Pasajero(String nombre, String apellido, String rut) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
-        this.asiento = asiento;
     }
 
     public String getNombre() {
@@ -42,20 +40,8 @@ public class Pasajero {
         this.rut = rut;
     }
 
-    public String getAsiento() {
-        return asiento;
-    }
-
-    public void setAsiento(String asiento) {
-        this.asiento = asiento;
-    }
-
-    @Override
     public String toString() {
-        return "Nombre: " + nombre + "\n"
-                + "Apellido: " + apellido + "\n"
-                + "RUT: " + rut + "\n"
-                + "Asiento: " + asiento;
+        return nombre + " " + apellido + " (" + rut + ")";
     }
 
 }

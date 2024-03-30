@@ -1,4 +1,4 @@
-package com.mycompany.proyecto1buses;
+
 
 public class Horario {
     private String hora;
@@ -30,4 +30,6 @@ public class Horario {
     }
 
 }
+
+
 

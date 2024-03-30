@@ -1,9 +1,10 @@
-package com.mycompany.proyecto1buses;
+
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.*;
 
 public class Proyecto1Buses {
     
@@ -12,12 +13,12 @@ public class Proyecto1Buses {
     private static List<Viaje> viajes = new ArrayList<>();
 
     public static void main(String[] args) throws FileNotFoundException {
-        // Leer archivo "ciudadesDestinos.txt"
+        // Leemos archivo "ciudadesDestinos.txt"
         leerCiudadesTerminalesHorarios("CiudadesDestino.txt");
 
         Scanner scanner = new Scanner(System.in);
 
-        // Mostrar menu
+        //Mostramos el menu
         int opcion;
         do {
             System.out.println("\nMenu:");
@@ -43,7 +44,7 @@ public class Proyecto1Buses {
     }
 
     private static void comprarBoleto(Scanner scanner) {
-        // Seleccionar ciudad de destino
+        //seleccionar una ciudad de destino
         System.out.println("Seleccione ciudad de destino:");
         for (Ciudad ciudad : ciudades) {
             System.out.println(" - " + ciudad.getNombre());
@@ -56,7 +57,7 @@ public class Proyecto1Buses {
             return;
         }
 
-        // Seleccionar terminal de destino
+        // Seleccionar el terminal de destino
         System.out.println("Seleccione terminal de destino:");
         List<Terminal> terminalesDestino = obtenerTerminales(ciudadDestino);
         for (Terminal terminal : terminalesDestino) {
@@ -70,7 +71,7 @@ public class Proyecto1Buses {
             return;
         }
 
-        // Seleccionar horario
+        // seleccionar un horario
         System.out.println("Seleccione horario de viaje:");
         List<Horario> horariosDisponibles = obtenerHorariosDisponibles(terminalDestino);
         for (Horario horario : horariosDisponibles) {
@@ -84,7 +85,7 @@ public class Proyecto1Buses {
             return;
         }
 
-        // Seleccionar asiento
+        // Seleccionar el asiento 
         System.out.println("Seleccione asiento (1-" + horarioSeleccionado.getAsientosDisponibles() + "):");
         int asiento = scanner.nextInt();
 
@@ -96,7 +97,7 @@ public class Proyecto1Buses {
         // Obtener precio del viaje
         int precioViaje = obtenerPrecioViaje(terminalDestino);
 
-        // Ingresar datos personales
+        //Ingresar datos personales
         System.out.println("Ingrese su nombre:");
         String nombre = scanner.nextLine();
 
@@ -107,18 +108,18 @@ public class Proyecto1Buses {
         String rut = scanner.nextLine();
 
         // Buscar o crear pasajero
-        Pasajero pasajero = buscarPasajero(nombre, apellido, rut, asiento);
+        Pasajero pasajero = buscarPasajero(nombre, apellido, rut);
         if (pasajero == null) {
             pasajero = new Pasajero(nombre, apellido, rut);
         }
 
-        // Registrar compra
+        //Registramos la compra
         registrarCompra(pasajero, ciudadDestino, terminalDestino, horarioSeleccionado, asiento, precioViaje);
 
-        // Mostrar resumen de compra
+        // Mostramos el resumen de la compra
         System.out.println("**Resumen de compra**");
         System.out.println("Destino: " + ciudadDestino.getNombre() + " (" + terminalDestino.getNombre() + ")");
-        System.out.println("Fecha y hora: " + "A implementar"); // Fecha y hora aún no implementada
+        System.out.println("Fecha y hora: " + FechaHora.now());
         System.out.println("Horario: " + horarioSeleccionado.getHora());
         System.out.println("Asiento: " + asiento);
         System.out.println("Precio: $" + precioViaje);
@@ -126,16 +127,16 @@ public class Proyecto1Buses {
     }
 
     private static int obtenerPrecioViaje(Terminal terminalDestino) {
-        // Leer archivo "ciudades.txt"
+        // Leer archivo "CiudadesDestino.txt"
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new File("ciudades.txt"));
+            scanner = new Scanner(new File("ciudadesDestino.txt"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return -1;
         }
 
-        // Buscar la línea que corresponde a la terminal
+        //buscamos la linea que corresponde a "terminal"
         while (scanner.hasNextLine()) {
             String linea = scanner.nextLine();
             String[] partes = linea.split(",");
@@ -146,37 +147,37 @@ public class Proyecto1Buses {
             }
         }
 
-        // Si no se encuentra la terminal, retornar -1
+        //Si no se encuentra la terminal, retornamos -1
         return -1;
     }
     
     private static void registrarCompra(Pasajero pasajero, Ciudad ciudadDestino, Terminal terminalDestino, Horario horarioSeleccionado, int asiento, int precioViaje) {
-    // Actualizar la cantidad de asientos disponibles
-    horarioSeleccionado.setAsientosDisponibles(horarioSeleccionado.getAsientosDisponibles() - 1);
+        //Se debe actualizar la cantidad de asientos disponibles
+        horarioSeleccionado.setAsientosDisponibles(horarioSeleccionado.getAsientosDisponibles() - 1);
 
-    // Crear objeto de compra
-    Compra compra = new Compra(pasajero, new Destino(ciudadDestino), terminalDestino, horarioSeleccionado, asiento, FechaHora.now(), precioViaje);
+        //Creamos el objeto de compra
 
-    // Registrar la compra en un archivo
-    try (FileWriter fileWriter = new FileWriter("compras.txt", true)) {
-        fileWriter.write(compra.toString() + "\n");
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.out.println("Error al registrar la compra.");
+        Compra compra = new Compra(pasajero, new Destino(ciudadDestino,terminalDestino), horarioSeleccionado, asiento, FechaHora.now(), precioViaje);
+
+        // Registrar la compra en un archivo
+        try (FileWriter fileWriter = new FileWriter("compras.txt", true)) {
+            fileWriter.write(compra.toString() + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al registrar la compra.");
+        }
+
+        // Simular el pago
+        simularPago(precioViaje);
     }
 
-    // Simular el pago
-    // ...
-    }
-    
     private static void simularPago(int precioViaje) {
-    System.out.println("Precio del viaje: $" + precioViaje);
-    System.out.println("Simulando pago...");
-    // Aqui simulamoss la interacción con un sistema de pago
-    System.out.println("Pago exitoso!");
+        System.out.println("Precio del viaje: $" + precioViaje);
+        System.out.println("Simulando pago...");
+        // Aqui simulamos la interacción con un sistema de pago
+        System.out.println("Pago exitoso!");
     }
 
-    
     private static Ciudad buscarCiudad(String nombre) {
         for (Ciudad ciudad : ciudades) {
             if (ciudad.getNombre().equals(nombre)) {
@@ -185,4 +186,43 @@ public class Proyecto1Buses {
         }
         return null;
     }
+
+    private static List<Terminal> obtenerTerminales(Ciudad ciudad) {
+        List<Terminal> terminalesCiudad = new ArrayList<>();
+        for (Terminal terminal : terminales) {
+            if (terminal.getCiudad().equals(ciudad)) {
+                terminalesCiudad.add(terminal);
+            }
+        }
+        return terminalesCiudad;
+    }
+
+    private static List<Horario> obtenerHorariosDisponibles(Terminal terminal) {
+        List<Horario> horariosDisponibles = new ArrayList<>();
+        for (Viaje viaje : viajes) {
+            if (viaje.getTerminal().equals(terminal) && viaje.getAsientosDisponibles() > 0) {
+                horariosDisponibles.add(viaje.getHorario());
+            }
+        }
+        return horariosDisponibles;
+    }
+
+    private static Horario buscarHorario(List<Horario> horarios, String hora) {
+        for (Horario horario : horarios) {
+            if (horario.getHora().equals(hora)) {
+                return horario;
+            }
+        }
+        return null;
+    }
+
+    private static Pasajero buscarPasajero(String nombre, String apellido, String rut) {
+        
+        return null;
+    }
+
+    private static void leerCiudadesTerminalesHorarios(String archivo) throws FileNotFoundException {
+        
+    }
 }
+   

@@ -1,11 +1,11 @@
-package com.mycompany.proyecto1buses;
+
 
 import java.util.*;
 
 /**
  *
  * @author matia
- */
+ 
 public class Ciudad {
     private String nombre;
     private List<Terminal> terminales;
@@ -34,4 +34,27 @@ public class Ciudad {
     public String toString() {
         return nombre;
     }
+}*/
+public class Ciudad {
+
+    private String nombre;
+
+    public Ciudad(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
 }
+

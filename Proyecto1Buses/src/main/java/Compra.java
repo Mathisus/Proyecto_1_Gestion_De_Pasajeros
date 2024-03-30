@@ -1,4 +1,4 @@
-package com.mycompany.proyecto1buses;
+
 
 /**
  *
@@ -8,18 +8,18 @@ public class Compra {
 
     private Pasajero pasajero;
     private Destino destino;
-    private Terminal terminalDestino;
     private Horario horario;
     private int asiento;
     private FechaHora fechaHora;
+    private int precioViaje;
 
-    public Compra(Pasajero pasajero, Destino destino, Terminal terminalDestino, Horario horario, int asiento, FechaHora fechaHora) {
+    public Compra(Pasajero pasajero, Destino destino, Horario horario, int asiento, FechaHora fechaHora, int precioViaje) {
         this.pasajero = pasajero;
         this.destino = destino;
-        this.terminalDestino = terminalDestino;
         this.horario = horario;
         this.asiento = asiento;
         this.fechaHora = fechaHora;
+        this.precioViaje = precioViaje;
     }
 
     public Pasajero getPasajero() {
@@ -36,14 +36,6 @@ public class Compra {
 
     public void setDestino(Destino destino) {
         this.destino = destino;
-    }
-
-    public Terminal getTerminalDestino() {
-        return terminalDestino;
-    }
-
-    public void setTerminalDestino(Terminal terminalDestino) {
-        this.terminalDestino = terminalDestino;
     }
 
     public Horario getHorario() {
@@ -70,4 +62,22 @@ public class Compra {
         this.fechaHora = fechaHora;
     }
 
+    public int getPrecioViaje() {
+        return precioViaje;
+    }
+
+    public void setPrecioViaje(int precioViaje) {
+        this.precioViaje = precioViaje;
+    }
+
+    public String toString() {
+        return "**Compra**\n" +
+                "Pasajero: " + pasajero + "\n" +
+                "Destino: " + destino + "\n" +
+                "Horario: " + horario + "\n" +
+                "Asiento: " + asiento + "\n" +
+                "Fecha y hora: " + fechaHora + "\n" +
+                "Precio: $" + precioViaje;
+    }
 }
+

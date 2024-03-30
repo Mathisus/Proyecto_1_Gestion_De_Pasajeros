@@ -1,9 +1,4 @@
-package com.mycompany.proyecto1buses;
 
-/**
- *
- * @author matia
- */
 public class Viaje {
     private Destino destino;
     private FechaHora fechaHora;
@@ -55,6 +50,19 @@ public class Viaje {
                 + "Cupos Disponibles: " + cuposDisponibles + "\n"
                 + "Precio: " + precio;
     }
+
+    Object getTerminal() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    int getAsientosDisponibles() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    Horario getHorario() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
+
 
 

@@ -1,35 +1,33 @@
-package com.mycompany.proyecto1buses;
-
-/**
- *
- * @author matia
- */
 public class Terminal {
+
     private String nombre;
     private Ciudad ciudad;
-    
+
     public Terminal(String nombre, Ciudad ciudad) {
         this.nombre = nombre;
-        this.ciudad= ciudad;
+        this.ciudad = ciudad;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
-    
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
     public Ciudad getCiudad() {
         return ciudad;
     }
-    
+
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
     }
-    
+
+    @Override
     public String toString() {
         return nombre + " (" + ciudad.getNombre() + ")";
     }
+
 }
+
