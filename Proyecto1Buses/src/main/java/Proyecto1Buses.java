@@ -216,13 +216,33 @@ public class Proyecto1Buses {
         return null;
     }
 
-    private static Pasajero buscarPasajero(String nombre, String apellido, String rut) {
-        
-        return null;
+    private static Pasajero buscarPasajero(String rut) {
+    // Implementar búsqueda por RUT en la lista de pasajeros
+    for (Pasajero pasajero : pasajeros) {
+        if (pasajero.getRut().equals(rut)) {
+            return pasajero;
+        }
+    }
+    return null;
     }
 
     private static void leerCiudadesTerminalesHorarios(String archivo) throws FileNotFoundException {
-        
+    try (Scanner scanner = new Scanner(new File(archivo))) {
+        while (scanner.hasNextLine()) {
+            String linea = scanner.nextLine();
+            String[] partes = linea.split(",");
+
+            // Crear objetos Ciudad, Terminal y Horario
+            Ciudad ciudad = new Ciudad(partes[0]);
+            Terminal terminal = new Terminal(partes[1], ciudad);
+            Horario horario = new Horario(partes[2], Integer.parseInt(partes[3]));
+
+            // Agregar objetos a las listas
+            ciudades.add(ciudad);
+            terminales.add(terminal);
+            viajes.add(new Viaje(terminal, horario));
+        }
+    }
     }
 }
    
