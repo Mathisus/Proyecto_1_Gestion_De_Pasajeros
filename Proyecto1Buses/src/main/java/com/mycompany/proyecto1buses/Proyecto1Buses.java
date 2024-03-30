@@ -1,14 +1,188 @@
 package com.mycompany.proyecto1buses;
 
-/**
- *
- * @author matia
- */
-public class Proyecto1Buses {
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-    public static void main(String[] args) {
-        
-        
-        
+public class Proyecto1Buses {
+    
+    private static List<Ciudad> ciudades = new ArrayList<>();
+    private static List<Terminal> terminales = new ArrayList<>();
+    private static List<Viaje> viajes = new ArrayList<>();
+
+    public static void main(String[] args) throws FileNotFoundException {
+        // Leer archivo "ciudadesDestinos.txt"
+        leerCiudadesTerminalesHorarios("CiudadesDestino.txt");
+
+        Scanner scanner = new Scanner(System.in);
+
+        // Mostrar menu
+        int opcion;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Comprar boleto");
+            System.out.println("2. Salir");
+            System.out.print("Ingrese su opcion: ");
+
+            opcion = scanner.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    comprarBoleto(scanner);
+                    break;
+                case 2:
+                    System.out.println("Saliendo del sistema...");
+                    break;
+                default:
+                    System.out.println("Opcion invalida. Intente nuevamente.");
+            }
+        } while (opcion != 2);
+
+        scanner.close();
+    }
+
+    private static void comprarBoleto(Scanner scanner) {
+        // Seleccionar ciudad de destino
+        System.out.println("Seleccione ciudad de destino:");
+        for (Ciudad ciudad : ciudades) {
+            System.out.println(" - " + ciudad.getNombre());
+        }
+        String nombreCiudadDestino = scanner.nextLine();
+
+        Ciudad ciudadDestino = buscarCiudad(nombreCiudadDestino);
+        if (ciudadDestino == null) {
+            System.out.println("Ciudad no válida.");
+            return;
+        }
+
+        // Seleccionar terminal de destino
+        System.out.println("Seleccione terminal de destino:");
+        List<Terminal> terminalesDestino = obtenerTerminales(ciudadDestino);
+        for (Terminal terminal : terminalesDestino) {
+            System.out.println(" - " + terminal.getNombre());
+        }
+        String nombreTerminalDestino = scanner.nextLine();
+
+        Terminal terminalDestino = buscarTerminal(terminalesDestino, nombreTerminalDestino);
+        if (terminalDestino == null) {
+            System.out.println("Terminal no válida.");
+            return;
+        }
+
+        // Seleccionar horario
+        System.out.println("Seleccione horario de viaje:");
+        List<Horario> horariosDisponibles = obtenerHorariosDisponibles(terminalDestino);
+        for (Horario horario : horariosDisponibles) {
+            System.out.println(" - " + horario.getHora() + " (" + horario.getAsientosDisponibles() + " cupos disponibles)");
+        }
+        String horaStr = scanner.nextLine();
+
+        Horario horarioSeleccionado = buscarHorario(horariosDisponibles, horaStr);
+        if (horarioSeleccionado == null) {
+            System.out.println("Horario no válido.");
+            return;
+        }
+
+        // Seleccionar asiento
+        System.out.println("Seleccione asiento (1-" + horarioSeleccionado.getAsientosDisponibles() + "):");
+        int asiento = scanner.nextInt();
+
+        if (asiento < 1 || asiento > horarioSeleccionado.getAsientosDisponibles()) {
+            System.out.println("Asiento no válido.");
+            return;
+        }
+
+        // Obtener precio del viaje
+        int precioViaje = obtenerPrecioViaje(terminalDestino);
+
+        // Ingresar datos personales
+        System.out.println("Ingrese su nombre:");
+        String nombre = scanner.nextLine();
+
+        System.out.println("Ingrese su apellido:");
+        String apellido = scanner.nextLine();
+
+        System.out.println("Ingrese su RUT:");
+        String rut = scanner.nextLine();
+
+        // Buscar o crear pasajero
+        Pasajero pasajero = buscarPasajero(nombre, apellido, rut, asiento);
+        if (pasajero == null) {
+            pasajero = new Pasajero(nombre, apellido, rut);
+        }
+
+        // Registrar compra
+        registrarCompra(pasajero, ciudadDestino, terminalDestino, horarioSeleccionado, asiento, precioViaje);
+
+        // Mostrar resumen de compra
+        System.out.println("**Resumen de compra**");
+        System.out.println("Destino: " + ciudadDestino.getNombre() + " (" + terminalDestino.getNombre() + ")");
+        System.out.println("Fecha y hora: " + "A implementar"); // Fecha y hora aún no implementada
+        System.out.println("Horario: " + horarioSeleccionado.getHora());
+        System.out.println("Asiento: " + asiento);
+        System.out.println("Precio: $" + precioViaje);
+        System.out.println("**Compra exitosa!**");
+    }
+
+    private static int obtenerPrecioViaje(Terminal terminalDestino) {
+        // Leer archivo "ciudades.txt"
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("ciudades.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        // Buscar la línea que corresponde a la terminal
+        while (scanner.hasNextLine()) {
+            String linea = scanner.nextLine();
+            String[] partes = linea.split(",");
+
+            if (partes.length > 0 && partes[0].equals(terminalDestino.getNombre())) {
+                // El precio es el último valor de la línea
+                return Integer.parseInt(partes[partes.length - 1]);
+            }
+        }
+
+        // Si no se encuentra la terminal, retornar -1
+        return -1;
+    }
+    
+    private static void registrarCompra(Pasajero pasajero, Ciudad ciudadDestino, Terminal terminalDestino, Horario horarioSeleccionado, int asiento, int precioViaje) {
+    // Actualizar la cantidad de asientos disponibles
+    horarioSeleccionado.setAsientosDisponibles(horarioSeleccionado.getAsientosDisponibles() - 1);
+
+    // Crear objeto de compra
+    Compra compra = new Compra(pasajero, new Destino(ciudadDestino), terminalDestino, horarioSeleccionado, asiento, FechaHora.now(), precioViaje);
+
+    // Registrar la compra en un archivo
+    try (FileWriter fileWriter = new FileWriter("compras.txt", true)) {
+        fileWriter.write(compra.toString() + "\n");
+    } catch (IOException e) {
+        e.printStackTrace();
+        System.out.println("Error al registrar la compra.");
+    }
+
+    // Simular el pago
+    // ...
+    }
+    
+    private static void simularPago(int precioViaje) {
+    System.out.println("Precio del viaje: $" + precioViaje);
+    System.out.println("Simulando pago...");
+    // Aqui simulamoss la interacción con un sistema de pago
+    System.out.println("Pago exitoso!");
+    }
+
+    
+    private static Ciudad buscarCiudad(String nombre) {
+        for (Ciudad ciudad : ciudades) {
+            if (ciudad.getNombre().equals(nombre)) {
+                return ciudad;
+            }
+        }
+        return null;
     }
 }
