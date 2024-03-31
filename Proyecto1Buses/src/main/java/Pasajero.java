@@ -3,7 +3,7 @@
 /**
  *
  * @author matia
- */
+ 
 public class Pasajero {
 
     private String nombre;
@@ -45,3 +45,4 @@ public class Pasajero {
     }
 
 }
+*/

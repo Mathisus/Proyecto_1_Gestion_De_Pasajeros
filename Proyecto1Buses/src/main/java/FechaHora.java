@@ -1,10 +1,10 @@
-
+/*
 
 import java.time.*;
 /**
  *
  * @author matia
- */
+ 
 public class FechaHora {
 
     static FechaHora now() {
@@ -34,4 +34,4 @@ public class FechaHora {
     public void setHora(LocalTime hora) {
         this.hora = hora;
     }
-}
+}*/

@@ -1,7 +1,7 @@
 /**
  *
  * @author matia
- */
+ 
 public class Destino {
     
     private Ciudad ciudad;
@@ -33,3 +33,4 @@ public class Destino {
     }
     
 }
+*/

@@ -1,4 +1,4 @@
-
+/*
 
 public class Horario {
     private String hora;
@@ -30,6 +30,6 @@ public class Horario {
     }
 
 }
-
+*/
 
 

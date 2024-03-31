@@ -1,4 +1,4 @@
-public class Terminal {
+/*public class Terminal {
 
     private String nombre;
     private Ciudad ciudad;
@@ -30,4 +30,4 @@ public class Terminal {
     }
 
 }
-
+*/

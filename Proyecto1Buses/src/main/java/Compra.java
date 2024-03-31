@@ -3,7 +3,7 @@
 /**
  *
  * @author matia
- */
+ 
 public class Compra {
 
     private Pasajero pasajero;
@@ -81,3 +81,4 @@ public class Compra {
     }
 }
 
+*/

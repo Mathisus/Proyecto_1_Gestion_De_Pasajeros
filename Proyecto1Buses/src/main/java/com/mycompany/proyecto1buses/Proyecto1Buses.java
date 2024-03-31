@@ -1,9 +1,9 @@
-package com.mycompany.testbuses2;
+package com.mycompany.proyecto1buses;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class TestBuses2 {
+public class Proyecto1Buses {
 
     private static final String CIUDAD_ORIGEN = "Valparaíso";
     private static final ArrayList<Destino> destinos = new ArrayList<>();

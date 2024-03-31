@@ -1,4 +1,4 @@
-
+/*
 public class Viaje {
     private Destino destino;
     private FechaHora fechaHora;
@@ -64,5 +64,5 @@ public class Viaje {
     }
 }
 
-
+*/
 

@@ -1,4 +1,4 @@
-package com.mycompany.testbuses2;
+package com.mycompany.proyecto1buses;
 
 
 public class Horario {
