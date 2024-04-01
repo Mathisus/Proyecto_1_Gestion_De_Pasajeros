@@ -5,14 +5,16 @@ public class Compra {
     private String nombre;
     private String apellido;
     private String rut;
-    private Destino destino;
+    private Ciudad ciudad;
+    private String terminal;
     private Horario horario;
 
-    public Compra(String nombre, String apellido, String rut, Destino destino, Horario horario) {
+    public Compra(String nombre, String apellido, String rut, Ciudad ciudad, String terminal, Horario horario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
-        this.destino = destino;
+        this.ciudad = ciudad;
+        this.terminal = terminal;
         this.horario = horario;
     }
 
@@ -28,8 +30,12 @@ public class Compra {
         return rut;
     }
 
-    public Destino getDestino() {
-        return destino;
+    public Ciudad getDestino() {
+        return ciudad;
+    }
+
+    public String getTerminal() {
+        return terminal;
     }
 
     public Horario getHorario() {
