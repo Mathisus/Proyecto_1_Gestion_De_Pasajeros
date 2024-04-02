@@ -5,6 +5,7 @@ import java.util.*;
 public class Ciudad {
 
     private String nombre;
+    private int codigo;
     private ArrayList<String> terminales;
     private HashMap<String, ArrayList<Horario>> horarios;
 
@@ -12,6 +13,7 @@ public class Ciudad {
         this.nombre = nombre;
         this.terminales = new ArrayList<>();
         this.horarios = new HashMap<>();
+        this.codigo = codigo;
     }
 
     public String getNombre() {
@@ -28,6 +30,14 @@ public class Ciudad {
 
     public void addHorario(String terminal, String hora, int cupoDisponible) {
         horarios.computeIfAbsent(terminal, k -> new ArrayList<>()).add(new Horario(hora, cupoDisponible));
+    }
+    
+    public void addCodigo(int codigo) {
+        this.codigo=codigo;
+    }
+    
+    public int getCodigo() {
+    return codigo;
     }
 
     public ArrayList<Horario> getHorarios(String terminal) {
