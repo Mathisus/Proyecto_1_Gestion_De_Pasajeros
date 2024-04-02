@@ -182,9 +182,6 @@ private static void cargarCiudades() {
     horarioElegido.setCupoDisponible(horarioElegido.getCupoDisponible() - 1);
     System.out.println("Cupos disponibles para " + ciudadElegida.getNombre() + " (" + terminalElegido + ") a las " + horarioElegido.getHora() + ": " + horarioElegido.getCupoDisponible());
 
-    // Descontar un cupo
-    horarioElegido.setCupoDisponible(horarioElegido.getCupoDisponible() - 1);
-
     return compra;
   }
 
