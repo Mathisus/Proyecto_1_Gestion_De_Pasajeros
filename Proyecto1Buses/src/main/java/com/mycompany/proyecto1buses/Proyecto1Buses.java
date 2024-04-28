@@ -115,7 +115,7 @@ private static void cargarCiudades() {
             for (int i = 2; i < datos.length; i += 3) {
                 if(!placeHolder.equals(datos[i])){
                 ciudad.addTerminal(datos[i]);
-                placeHolder = new String(datos[i]);
+                placeHolder = datos[i];
                 }
                 ciudad.addHorario(datos[i], datos[i+1], Integer.parseInt(datos[i+2]));
             }
