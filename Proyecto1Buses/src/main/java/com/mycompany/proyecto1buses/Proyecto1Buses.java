@@ -1,5 +1,8 @@
 package com.mycompany.proyecto1buses;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -102,6 +105,23 @@ public class Proyecto1Buses {
   }
 
 private static void cargarCiudades() {
+    try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/mycompany/data/ciudades.txt"))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(",");
+            Ciudad ciudad = new Ciudad(datos[0]);
+            ciudad.addCodigo(Integer.parseInt(datos[1]));
+            for (int i = 2; i < datos.length; i += 3) {
+                ciudad.addTerminal(datos[i]);
+                ciudad.addHorario(datos[i], datos[i+1], Integer.parseInt(datos[i+2]));
+            }
+            ciudades.add(ciudad);
+        }
+    } catch (IOException e) {
+        System.out.println("Error al leer el archivo: " + e.getMessage());
+    }
+}
+/*private static void cargarCiudades() {
     //agregamos ciudades, terminales y horario
 
     Ciudad ciudad1 = new Ciudad("Santiago");
@@ -129,7 +149,7 @@ private static void cargarCiudades() {
     ciudad2.addHorario("Terminal Biobío", "20:00", 30);
 
     ciudades.add(ciudad2);
-  }
+  }*/
 
   private static Ciudad seleccionarCiudadDestino(Scanner scanner) {
     //Mostramos las opciones de ciudades
