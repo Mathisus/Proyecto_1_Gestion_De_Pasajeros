@@ -130,35 +130,6 @@ private static void cargarCiudades() {
     ArrayList<String> terminales = Ciudad.getTerminales();
     
 }*/
-/*private static void cargarCiudades() {
-    //agregamos ciudades, terminales y horario
-
-    Ciudad ciudad1 = new Ciudad("Santiago");
-    ciudad1.addCodigo(1);
-    ciudad1.addTerminal("Terminal Alameda");
-    ciudad1.addHorario("Terminal Alameda", "08:00", 30);
-    ciudad1.addHorario("Terminal Alameda", "12:00", 30);
-    ciudad1.addHorario("Terminal Alameda", "18:00", 30);
-    ciudad1.addTerminal("Terminal Sur");
-    ciudad1.addHorario("Terminal Sur", "09:00", 30);
-    ciudad1.addHorario("Terminal Sur", "14:00", 30);
-    ciudad1.addHorario("Terminal Sur", "19:00", 30);
-
-    ciudades.add(ciudad1);
-
-    Ciudad ciudad2 = new Ciudad("Concepción");
-    ciudad2.addCodigo(2);
-    ciudad2.addTerminal("Terminal Collao");
-    ciudad2.addHorario("Terminal Collao", "09:00", 30);
-    ciudad2.addHorario("Terminal Collao", "14:00", 30);
-    ciudad2.addHorario("Terminal Collao", "19:00", 30);
-    ciudad2.addTerminal("Terminal Biobío");
-    ciudad2.addHorario("Terminal Biobío", "10:00", 30);
-    ciudad2.addHorario("Terminal Biobío", "15:00", 30);
-    ciudad2.addHorario("Terminal Biobío", "20:00", 30);
-
-    ciudades.add(ciudad2);
-  }*/
 
   private static Ciudad seleccionarCiudadDestino(Scanner scanner) {
     //Mostramos las opciones de ciudades
