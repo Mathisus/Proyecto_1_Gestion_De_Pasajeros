@@ -103,7 +103,7 @@ public class Proyecto1Buses {
     } while (opcion != 2);
     scanner.close();
   }
-
+  
 private static void cargarCiudades() {
     try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/mycompany/data/ciudades.txt"))) {
         String linea;
@@ -111,8 +111,12 @@ private static void cargarCiudades() {
             String[] datos = linea.split(",");
             Ciudad ciudad = new Ciudad(datos[0]);
             ciudad.addCodigo(Integer.parseInt(datos[1]));
+            String placeHolder = "0000000000000000000000";
             for (int i = 2; i < datos.length; i += 3) {
+                if(!placeHolder.equals(datos[i])){
                 ciudad.addTerminal(datos[i]);
+                placeHolder = datos[i];
+                }
                 ciudad.addHorario(datos[i], datos[i+1], Integer.parseInt(datos[i+2]));
             }
             ciudades.add(ciudad);
@@ -121,6 +125,11 @@ private static void cargarCiudades() {
         System.out.println("Error al leer el archivo: " + e.getMessage());
     }
 }
+
+/*private static void eliminarCiudad(String terminalEliminar) {
+    ArrayList<String> terminales = Ciudad.getTerminales();
+    
+}*/
 /*private static void cargarCiudades() {
     //agregamos ciudades, terminales y horario
 
