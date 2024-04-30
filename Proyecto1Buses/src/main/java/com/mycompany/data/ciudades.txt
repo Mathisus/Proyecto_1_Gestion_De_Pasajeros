@@ -1,2 +1,4 @@
-Santiago,1,Terminal Alameda,08:00,30,Terminal Alameda,12:00,30,Terminal Alameda,18:00,30,Terminal Sur,09:00,30,Terminal Sur,14:00,30,Terminal Sur,19:00,30
-Concepción,2,Terminal Collao,09:00,30,Terminal Collao,14:00,30,Terminal Collao,19:00,30,Terminal Biobío,10:00,30,Terminal Biobío,15:00,30,Terminal Biobío,20:00,30
+Santiago,Terminal Alameda,08:00 30 1000;12:00 30 1000;18:00 30 1000
+Santiago,Terminal Sur,09:00 30 1000;14:00 30 1000;19:00 30 1000
+Concepción,Terminal Collao,09:00 30 1000;14:00 30 1000;19:00 30 1000
+Concepción,Terminal Biobío,10:00 30 1000;15:00 30 1000;20:00 30 1000

@@ -1,34 +1,39 @@
 package com.mycompany.proyecto1buses;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import com.mycompany.ventanas.portada;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.nio.file.Paths;
 
 public class Proyecto1Buses {
+    
+  //private static final ArrayList<Ciudad> ciudades = new ArrayList<>();
 
-  private static final String CIUDAD_ORIGEN = "Valparaíso";
-  private static final ArrayList<Ciudad> ciudades = new ArrayList<>();
+  public static void main(String[] args) throws IOException{
+    
+    String currentFolder = Paths.get("").toAbsolutePath().toString();
+    
+    String txtCiudades = currentFolder + "/src/main/java/com/mycompany/data/ciudades.txt";
+    String csvClientes = currentFolder + "/src/main/java/com/mycompany/data/Clientes.csv";
+    
+    
+    data db = new data();
+    
+    db.importarCiudades(txtCiudades);
+    db.importarClientes(csvClientes);
+      
+    Cliente cliente = new Cliente("default", "rutDefault", "contraDefault");
+    
+    
 
-  public static void main(String[] args) {
-    cargarCiudades();
+    portada port = new portada(db,cliente);
+    port.setVisible(true);
+    port.setLocationRelativeTo(null);
+  }
+}
 
-    Scanner scanner = new Scanner(System.in);
-    int opcion;
+/*
 
-    do {
-
-      System.out.println("\nMenú:");
-      System.out.println("1. Comprar boleto");
-      System.out.println("2. Salir");
-      System.out.print("Ingrese su opción: ");
-
-      opcion = scanner.nextInt();
-      Ciudad ciudadElegida = null;
-      switch (opcion) {
-
-        case 1:
+        
           //Seleccionamos ciudad destino
           System.out.println("Seleccione el método para elegir ciudad destino:");
           System.out.println("1. Por lista");
@@ -103,55 +108,7 @@ public class Proyecto1Buses {
     } while (opcion != 2);
     scanner.close();
   }
-  
-private static void cargarCiudades() {
-    try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/com/mycompany/data/ciudades.txt"))) {
-        String linea;
-        while ((linea = br.readLine()) != null) {
-            String[] datos = linea.split(",");
-            Ciudad ciudad = new Ciudad(datos[0]);
-            ciudad.addCodigo(Integer.parseInt(datos[1]));
-            String placeHolder = "0000000000000000000000";
-            for (int i = 2; i < datos.length; i += 3) {
-                if(!placeHolder.equals(datos[i])){
-                ciudad.addTerminal(datos[i]);
-                placeHolder = datos[i];
-                }
-                ciudad.addHorario(datos[i], datos[i+1], Integer.parseInt(datos[i+2]));
-            }
-            ciudades.add(ciudad);
-        }
-    } catch (IOException e) {
-        System.out.println("Error al leer el archivo: " + e.getMessage());
-    }
 }
-
-/*private static void eliminarCiudad(String terminalEliminar) {
-    ArrayList<String> terminales = Ciudad.getTerminales();
-    
-}*/
-
-  private static Ciudad seleccionarCiudadDestino(Scanner scanner) {
-    //Mostramos las opciones de ciudades
-    for (int i = 0; i < ciudades.size(); i++) {
-      System.out.println((i + 1) + ". " + ciudades.get(i).getNombre());
-    }
-
-    int opcionCiudad = scanner.nextInt();
-    return ciudades.get(opcionCiudad - 1);
-  }
-
-  private static Ciudad seleccionarCiudadDestino(String nombreCiudad) {
-    // Buscamos ciudad por nombre
-    for (Ciudad ciudad : ciudades) {
-      if (ciudad.getNombre().equalsIgnoreCase(nombreCiudad)) {
-        return ciudad;
-      }
-    }
-
-    return null;
-  }
-
   private static Ciudad seleccionarCiudadDestino(int codigoCiudad) {
     // Buscamos ciudad por código
     for (Ciudad ciudad : ciudades) {
@@ -206,3 +163,4 @@ private static void cargarCiudades() {
     return comprarBoleto(ciudadElegida, terminalElegido, horarioElegido);
   }
 }
+*/

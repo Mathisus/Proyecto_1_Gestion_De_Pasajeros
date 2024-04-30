@@ -4,17 +4,27 @@
  */
 package com.mycompany.ventanas;
 
+import com.mycompany.proyecto1buses.Cliente;
+import com.mycompany.proyecto1buses.data;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author matia
  */
 public class IniciarSesion extends javax.swing.JFrame {
+    
+    private data db;
+    private Cliente cliente;
 
     /**
      * Creates new form IniciarSesion
      */
-    public IniciarSesion() {
+    public IniciarSesion(data db, Cliente cliente) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.db = db;
+        this.cliente = cliente;
     }
 
     /**
@@ -113,7 +123,7 @@ public class IniciarSesion extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        portada volver = new portada(data,cliente);
+        portada volver = new portada(db,cliente);
         volver.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -123,14 +133,14 @@ public class IniciarSesion extends javax.swing.JFrame {
         String cliente = txtnombre.getText();
         String contra = txtcontra.getText();
 
-        Cliente client = data.iniciarSesion(cliente, contra);
+        Cliente client = db.iniciarSesion(cliente, contra);
         if(client == null)
         {
-            JOptionPane.showMessageDialog(this, "Usuario NO encontrado");
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado");
 
         }else{
 
-            MenuCliente swingNormal = new MenuCliente(client);
+            MenuCliente swingNormal = new MenuCliente(db,client);
             swingNormal.setVisible(true);
             this.dispose();
 
@@ -145,37 +155,6 @@ public class IniciarSesion extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(IniciarSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(IniciarSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(IniciarSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(IniciarSesion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new IniciarSesion().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
