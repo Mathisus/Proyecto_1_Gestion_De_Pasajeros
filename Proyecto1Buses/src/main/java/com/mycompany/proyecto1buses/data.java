@@ -6,6 +6,7 @@ package com.mycompany.proyecto1buses;
  */
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.List;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +19,8 @@ public class data {
     private Map<String, CiudadV> mapaCiudades = new HashMap<>();
     private ArrayList<Cliente> listaClientes;
     private Map<String, Cliente> mapaClientes = new HashMap<>();
-    Map<String, Boleto> mapaBoletos = new HashMap<>();
+    private Map<String, Boleto> mapaBoletos = new HashMap<>();
+    
 
 
     public data() {
@@ -87,10 +89,10 @@ public class data {
     // Funciones propias del Gestor.
 
     public boolean agregarCliente(Cliente cliente) {
-        if(mapaClientes.containsKey(cliente.getNombreUsuario())) {
+        if(mapaClientes.containsKey(cliente.getRut())) {
             return false;
         } else {
-            mapaClientes.put(cliente.getNombreUsuario(), cliente);
+            mapaClientes.put(cliente.getRut(), cliente);
             listaClientes.add(cliente);
             return true;
         }
@@ -176,9 +178,9 @@ public class data {
         return null;
     }
     
-    public boolean existeCliente(String nombre)
+    public boolean existeCliente(String rut)
     {
-        if(mapaClientes.containsKey(nombre))
+        if(mapaClientes.containsKey(rut))
         {
             return true;
         }
@@ -192,20 +194,25 @@ public class data {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) { // Aquí está la corrección
         //se exporta cada cliente en el bucle
         for (Cliente cliente : listaClientes) {
+            
             writer.write(cliente.getNombreUsuario() + ",");
             writer.write(cliente.getRut() + ",");
             writer.write(cliente.getContra() + ",");
 
             //se obtienen los nombres de los boletos tomados por el cliente
-            ArrayList<String> boletosCliente = cliente.boletosTomados();
+            ArrayList<Boleto> boletosCliente = cliente.getBoletosEnPosesion();
 
-            if(boletosCliente.size() > 0) {
+            /*if(boletosCliente.size() > 0) {
                 writer.write(",");
-            }
+            }*/
 
             //se escriben en la linea de texto
             for(int i = 0 ; i < boletosCliente.size() ; i++) {
-                writer.write(boletosCliente.get(i));
+                Boleto boleto = boletosCliente.get(i);
+                writer.write(boleto.getCiudadDestino() + ",");
+                writer.write(boleto.getTerminalDestino() + ",");
+                writer.write(boleto.getHorarioDestino() + ",");
+                writer.write(boleto.getValorBoleto() + ",");
 
                 if(boletosCliente.size() -1  == i) {
                     break;
@@ -216,8 +223,6 @@ public class data {
             writer.newLine();
         }
         
-        listaClientes.clear();
-        mapaClientes.clear();
     } catch (IOException e) {
         e.printStackTrace();
     }
@@ -239,13 +244,16 @@ public class data {
                     ArrayList<Boleto> boletosPosecion = new ArrayList<>();
                     if(parts.length >= 4) {
 
-                        for (int i = 3; i < parts.length; i++) {
-                            String nombreBoleto = parts[i];
+                        for (int i = 3; i < parts.length; i+=4) {
+                            String destinoBoleto = parts[i];
+                            String terminalBoleto = parts[i+1];
+                            String horarioBoleto = parts[i+2];
+                            String precioBoleto = parts[i+3];
+                            int precioBoletoInt = Integer.parseInt(precioBoleto);
                             // Buscar el boleto por nombre y agregarlo a la lista de boletos en posesión
-                            Boleto boleto = mapaBoletos.get(nombreBoleto);
-                            if (boleto != null) {
-                                boletosPosecion.add(boleto);
-                            }
+                            Boleto boleto = new Boleto(destinoBoleto, terminalBoleto, horarioBoleto, precioBoletoInt);
+                            boletosPosecion.add(boleto);
+                            
                         }
 
                     }
@@ -253,13 +261,14 @@ public class data {
                     Cliente cliente = new Cliente(nombreUsuario, rut, contra);
                     cliente.agregarBoletosImportados(boletosPosecion);
                     listaClientes.add(cliente);
-                    mapaClientes.put(nombreUsuario, cliente);
+                    mapaClientes.put(rut, cliente);
                 }
             }
         } 
         catch (IOException e) {
             e.printStackTrace();
         }    
+
     }
     
     public ArrayList<String> getCiudades()
@@ -272,15 +281,36 @@ public class data {
         return ciudades;
     }
     
-   /* public ArrayList<String> obtenerTerminales()
-    {
-        Ciudad ciudad = listaCiudades;
-        ArrayList<String> terminales = new ArrayList<String>();
-        for(Terminal terminal : listaCiudades.getTerminales)
-        {
-            ciudades.add(ciudad.getNombre());
+    public List<Terminal> getTerminales(String nombreCiudad) {
+        CiudadV ciudad = mapaCiudades.get(nombreCiudad);
+        if (ciudad != null) {
+            return ciudad.getTerminales();
         }
-        return ciudades;
-    }*/
+        return new ArrayList<>(); // Retorna una lista vacía si la ciudad no se encuentra
+    }
+    
+    public Terminal buscarTerminalPorNombre(String nombreTerminal) {
+        for (CiudadV ciudad : listaCiudades) {
+            for (Terminal terminal : ciudad.getTerminales()) {
+                if (terminal.getNombre().equals(nombreTerminal)) {
+                    return terminal;
+                }
+            }
+        }
+        return null; // Retorna null si el terminal no se encuentra
+    }
+    
+    public HorarioV buscarHorarioPorHora(String horaBuscada) {
+        for (CiudadV ciudad : listaCiudades) {
+            for (Terminal terminal : ciudad.getTerminales()) {
+                for (HorarioV horario : terminal.getHorarios()) {
+                    if (horario.getHora().equals(horaBuscada)) {
+                        return horario;
+                    }
+                }
+            }
+        }
+        return null; // Retorna null si el horario no se encuentra
+    }
 }
 

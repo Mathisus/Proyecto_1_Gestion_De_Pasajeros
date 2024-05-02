@@ -5,6 +5,18 @@
 package com.mycompany.ventanas;
 import com.mycompany.proyecto1buses.Cliente;
 import com.mycompany.proyecto1buses.data;
+import com.mycompany.proyecto1buses.Terminal;
+import com.mycompany.proyecto1buses.CiudadV;
+import com.mycompany.proyecto1buses.HorarioV;
+import com.mycompany.proyecto1buses.Boleto;
+
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.nio.file.Paths;
+
+
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -15,6 +27,9 @@ import javax.swing.JTextArea;
  * @author matia
  */
 public class Comprar extends javax.swing.JFrame {
+    
+    String currentFolder = Paths.get("").toAbsolutePath().toString();
+    String csvClientes = currentFolder + "/src/main/java/com/mycompany/data/Clientes.csv";
     
     private data db;
     private Cliente cliente;
@@ -28,7 +43,7 @@ public class Comprar extends javax.swing.JFrame {
         this.db = db;
         this.cliente = cliente;
         agregarCiudades();
-        //agregarTerminales();
+
         
     }
     
@@ -36,18 +51,12 @@ public class Comprar extends javax.swing.JFrame {
         ArrayList<String> ciudades = db.getCiudades();
         
         for(int i = 0; i < ciudades.size(); i++){
-            ComboCiudades.addItem(ciudades.get(i));
+            CiudadesJCombo.addItem(ciudades.get(i));
         }
         
     }
-    
-    /*private void agregarTerminales(){
-        ArrayList<String> terminales = db.getTerminales();
-        
-        for(int i = 0; i < terminales.size(); i++){
-            ComboCiudades.addItem(terminales.get(i));
-        }
-    }*/
+     
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,18 +68,16 @@ public class Comprar extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        ComboCiudades = new javax.swing.JComboBox<>();
+        CiudadesJCombo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        Terminales = new javax.swing.JComboBox<>();
+        TerminalesJCombo = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        Horarios = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
-        Comprar = new javax.swing.JButton();
-        Volver = new javax.swing.JButton();
+        HorariosJCombo = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
-        Cantidad = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtdatos = new javax.swing.JTextArea();
+        CantidadJCombo = new javax.swing.JComboBox<>();
+        labelValorBoleto = new javax.swing.JLabel();
+        Volver = new javax.swing.JButton();
+        Comprar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -78,29 +85,34 @@ public class Comprar extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel1.setText("Ciudad desitno:");
 
-        ComboCiudades.addActionListener(new java.awt.event.ActionListener() {
+        CiudadesJCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboCiudadesActionPerformed(evt);
+                CiudadesJComboActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Terminal destino:");
 
-        Terminales.addActionListener(new java.awt.event.ActionListener() {
+        TerminalesJCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TerminalesActionPerformed(evt);
+                TerminalesJComboActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Horario:");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Valor del Boleto: $");
+        HorariosJCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HorariosJComboActionPerformed(evt);
+            }
+        });
 
-        Comprar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        Comprar.setText("COMPRAR");
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Cantidad:");
+
+        labelValorBoleto.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         Volver.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         Volver.setText("VOLVER");
@@ -110,24 +122,23 @@ public class Comprar extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Cantidad:");
-
-        txtdatos.setColumns(20);
-        txtdatos.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        txtdatos.setRows(5);
-        txtdatos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jScrollPane1.setViewportView(txtdatos);
+        Comprar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Comprar.setText("COMPRAR");
+        Comprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComprarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -135,86 +146,86 @@ public class Comprar extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(Volver)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(Comprar))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Volver)
+                        .addGap(109, 109, 109)
+                        .addComponent(Comprar))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(67, 67, 67))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(33, 33, 33)))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(ComboCiudades, 0, 110, Short.MAX_VALUE)
-                                .addComponent(Terminales, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Horarios, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(Cantidad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(20, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(145, 145, 145))))
+                                .addComponent(CiudadesJCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(HorariosJCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(CantidadJCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TerminalesJCombo, 0, 81, Short.MAX_VALUE)))
+                        .addComponent(labelValorBoleto, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(ComboCiudades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(Terminales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(Horarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(Comprar)
-                            .addComponent(Volver)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(CiudadesJCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(TerminalesJCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(HorariosJCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(CantidadJCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelValorBoleto, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Volver)
+                    .addComponent(Comprar))
+                .addGap(25, 25, 25))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ComboCiudadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboCiudadesActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_ComboCiudadesActionPerformed
 
-    private void TerminalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TerminalesActionPerformed
+    private void CiudadesJComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CiudadesJComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TerminalesActionPerformed
+        CiudadesJCombo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String ciudadSeleccionada = (String)e.getItem();
+                    CiudadV ciudad = db.buscarCiudadPorNombre(ciudadSeleccionada); 
+                    TerminalesJCombo.removeAllItems();
+            
+                for(Terminal terminal : ciudad.getTerminales()) {
+                    TerminalesJCombo.addItem(terminal.getNombre());
+            }
+        }
+    }
+});    
+    }//GEN-LAST:event_CiudadesJComboActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
@@ -223,21 +234,89 @@ public class Comprar extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_VolverActionPerformed
 
+    private void ComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComprarActionPerformed
+        // TODO add your handling code here:
+        Comprar.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        // Obtenemos la información seleccionada por el usuario
+        String ciudadDestino = (String) CiudadesJCombo.getSelectedItem();
+        String terminalDestino = (String) TerminalesJCombo.getSelectedItem();
+        String horarioDestino = (String) HorariosJCombo.getSelectedItem();
+        int cantidadBoletos = Integer.parseInt((String) CantidadJCombo.getSelectedItem());
+        HorarioV horario = db.buscarHorarioPorHora(horarioDestino);
+        int valorBoleto = horario.getPrecio();
+        
+        int costoTotal = valorBoleto * cantidadBoletos;
 
+        // Muestra el costo total en el JLabel
+        labelValorBoleto.setText("Valor total: " + costoTotal);
+
+        // Crea los boletos y añádelos a la lista del cliente
+        for (int i = 0; i < cantidadBoletos; i++) {
+            Boleto nuevoBoleto = new Boleto(cliente.getNombreUsuario(), cliente.getRut(), ciudadDestino, terminalDestino, horarioDestino, valorBoleto);
+            cliente.getBoletosEnPosesion().add(nuevoBoleto);
+        }
+
+        // Actualiza la interfaz o muestra un mensaje de confirmación
+       
+        JOptionPane.showMessageDialog(null, "Compra realizada con éxito.");
+    }
+});
+        
+    }//GEN-LAST:event_ComprarActionPerformed
+
+    private void HorariosJComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HorariosJComboActionPerformed
+        // TODO add your handling code here:
+        HorariosJCombo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String horarioSeleccionado = (String)e.getItem();
+                    // Asumiendo que tienes un método que devuelve el horario basado en su nombre
+                    HorarioV horario = db.buscarHorarioPorHora(horarioSeleccionado); 
+                    CantidadJCombo.removeAllItems();
+                    int precioBoleto = horario.getPrecio();
+
+                    for(int i = 1; i <= horario.getCupos(); i++) {
+                        CantidadJCombo.addItem(Integer.toString(i));
+                    }
+                }
+            }
+});
+    }//GEN-LAST:event_HorariosJComboActionPerformed
+
+    private void TerminalesJComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TerminalesJComboActionPerformed
+        // TODO add your handling code here:
+        TerminalesJCombo.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    String terminalSeleccionado = (String)e.getItem();
+                    // Asumiendo que tienes un método que devuelve el terminal basado en el nombre
+                    Terminal terminal = db.buscarTerminalPorNombre(terminalSeleccionado);
+                    HorariosJCombo.removeAllItems();
+
+                    for(HorarioV horario : terminal.getHorarios()) {
+                        HorariosJCombo.addItem(horario.getHora());
+                    }
+                }
+        }
+});
+
+        
+    }//GEN-LAST:event_TerminalesJComboActionPerformed
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Cantidad;
-    private javax.swing.JComboBox<String> ComboCiudades;
+    private javax.swing.JComboBox<String> CantidadJCombo;
+    private javax.swing.JComboBox<String> CiudadesJCombo;
     private javax.swing.JButton Comprar;
-    private javax.swing.JComboBox<String> Horarios;
-    private javax.swing.JComboBox<String> Terminales;
+    private javax.swing.JComboBox<String> HorariosJCombo;
+    private javax.swing.JComboBox<String> TerminalesJCombo;
     private javax.swing.JButton Volver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txtdatos;
+    private javax.swing.JLabel labelValorBoleto;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,11 +1,11 @@
 package com.mycompany.proyecto1buses;
 
-public class Compra {
+/*public class Compra {
 
-    private String nombre;
+    /*private String nombre;
     private String apellido;
     private String rut;
-    private Ciudad ciudad;
+    //private Ciudad ciudad;
     private String terminal;
     private Horario horario;
 
@@ -13,7 +13,7 @@ public class Compra {
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
-        this.ciudad = ciudad;
+        //.ciudad = ciudad;
         this.terminal = terminal;
         this.horario = horario;
     }
@@ -29,16 +29,17 @@ public class Compra {
     public String getRut() {
         return rut;
     }
-
-    public Ciudad getDestino() {
-        return ciudad;
-    }
-
-    public String getTerminal() {
-        return terminal;
-    }
-
-    public Horario getHorario() {
-        return horario;
-    }
 }
+
+    //public Ciudad getDestino() {
+        //return ciudad;
+    //}
+
+    //public String getTerminal() {
+     //   return terminal;
+    //}
+
+   // public Horario getHorario() {
+    //    return horario;
+    //}
+//}*/

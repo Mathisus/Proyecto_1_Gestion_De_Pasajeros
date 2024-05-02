@@ -54,26 +54,30 @@ public class Cliente {
     }    
     
     public ArrayList<String> boletosTomados() {
-    ArrayList<String> nombreBoletos = new ArrayList<String>();
-    
-    for(int i = 0 ; i < boletosEnPosesion.size(); i++){
-        nombreBoletos.add(boletosEnPosesion.get(i).getCiudadDestino());
-    }
-    return nombreBoletos;
+        ArrayList<String> nombreBoletos = new ArrayList<String>();
 
-}
+        for(int i = 0 ; i < boletosEnPosesion.size(); i++){
+            nombreBoletos.add(boletosEnPosesion.get(i).getCiudadDestino());
+        }
+        return nombreBoletos;
+
+    }
     public void agregarBoletosImportados(ArrayList<Boleto> lista) {
-    //verificamos que la lista de boletos del cliente tenga boletos tomados
-    if(lista.isEmpty()){
-        return;
-    }
+        //verificamos que la lista de boletos del cliente tenga boletos tomados
+        if(lista.isEmpty()){
+            return;
+        }
 
-    //recorremos la lista de boletos del cliente
-    for(int i = 0; i < lista.size(); i++){
-        Boleto boleto = lista.get(i);
-        boletosEnPosesion.add(boleto);
+        //recorremos la lista de boletos del cliente
+        for(int i = 0; i < lista.size(); i++){
+            Boleto boleto = lista.get(i);
+            boletosEnPosesion.add(boleto);
+        }
     }
-}
+    
+    public ArrayList<Boleto> getBoletosEnPosesion() {
+        return boletosEnPosesion;
+    }
 
     
     
@@ -135,17 +139,7 @@ public boolean anularBoleto(Gestor terminal, String nombreBoleto) {
     }
     
 }
-
-public ArrayList<String> boletosTomados() {   
-    ArrayList<String> nombresBoletos = new ArrayList<String>();
-
-    for(int i = 0 ; i < boletosEnPosesion.size() ; i++) {
-        nombresBoletos.add(boletosEnPosesion.get(i).getCiudadDestino());
-    }
-
-    return nombresBoletos;
-}
-}     
+    
 */
 
 

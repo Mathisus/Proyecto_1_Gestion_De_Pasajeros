@@ -67,7 +67,7 @@ public class IniciarSesion extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Nombre: ");
+        jLabel2.setText("RUT Usuario (Sin puntos Ni Guion):");
 
         jLabel3.setText("Contraseña: ");
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -132,6 +132,7 @@ public class IniciarSesion extends javax.swing.JFrame {
 
         String cliente = txtnombre.getText();
         String contra = txtcontra.getText();
+        
 
         Cliente client = db.iniciarSesion(cliente, contra);
         if(client == null)

@@ -16,7 +16,7 @@ public class MenuCliente extends javax.swing.JFrame {
     String currentFolder = Paths.get("").toAbsolutePath().toString();
       
       //directorios para las peliculas
-      String csvPeliculas = currentFolder + "/src/main/java/com/mycompany/data/ciudades.txt";
+      String txtCiudades = currentFolder + "/src/main/java/com/mycompany/data/ciudades.txt";
       String csvClientes = currentFolder + "/src/main/java/com/mycompany/data/clientes.csv";
     
     private  data db;
@@ -70,6 +70,11 @@ public class MenuCliente extends javax.swing.JFrame {
 
         verBoletos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         verBoletos.setText("Ver mis Boletos");
+        verBoletos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verBoletosActionPerformed(evt);
+            }
+        });
 
         anularBoleto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         anularBoleto.setText("Anular Boleto");
@@ -135,12 +140,20 @@ public class MenuCliente extends javax.swing.JFrame {
         int i = JOptionPane.showConfirmDialog(this, "Seguro que quieres salir?"); 
         if (i == 0)
         {
+            db.exportarClientes(csvClientes);
             portada port = new portada(db,cliente);
             port.setVisible(true);
             this.dispose();
         }        
 
     }//GEN-LAST:event_cerrarSesionActionPerformed
+
+    private void verBoletosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verBoletosActionPerformed
+        // TODO add your handling code here:
+        VerBoletos ver = new VerBoletos(db,cliente);
+        ver.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_verBoletosActionPerformed
 
     /**
      * @param args the command line arguments

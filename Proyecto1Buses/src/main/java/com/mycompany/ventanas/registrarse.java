@@ -156,7 +156,7 @@ public class registrarse extends javax.swing.JFrame {
         String rut = txtrut.getText();
         String contra = txtcontra.getText();
 
-        if(db.existeCliente(cliente)){
+        if(db.existeCliente(rut)){
             JOptionPane.showMessageDialog(this, "RUT ya registrado");
         }else{
             
