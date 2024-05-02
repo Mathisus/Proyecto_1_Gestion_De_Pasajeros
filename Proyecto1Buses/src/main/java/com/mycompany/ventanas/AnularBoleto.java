@@ -32,7 +32,7 @@ public class AnularBoleto extends javax.swing.JFrame {
     
     public void llenarJCombo(){
         for (Boleto boleto : cliente.getBoletosEnPosesion()) {
-            CiudadJCombo.addItem(boleto.getCiudadDestino());
+            CiudadJCombo.addItem(boleto.getTerminalDestino());
         }
     }
 

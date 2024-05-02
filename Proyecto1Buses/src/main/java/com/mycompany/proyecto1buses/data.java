@@ -175,7 +175,7 @@ public class data {
     
     public void exportarClientes(String archivo) {
     //escritor
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) { // Aquí está la corrección
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) { // Aquí está la corrección
         //se exporta cada cliente en el bucle
         for (Cliente cliente : listaClientes) {
             
@@ -251,48 +251,6 @@ public class data {
         e.printStackTrace();
     }    
 }
-
-
-
-    /*public void importarClientes(String archivo) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length >= 3) {
-                    // Asignación de los datos del cliente
-                    String nombreUsuario = parts[0];
-                    String rut = parts[1].trim();
-                    String contra = parts[2];
-
-                    ArrayList<Boleto> boletosPosecion = new ArrayList<>();
-                    if(parts.length >= 4) {
-
-                        for (int i = 3; i < parts.length; i+=4) {
-                            String destinoBoleto = parts[i];
-                            String terminalBoleto = parts[i+1];
-                            String horarioBoleto = parts[i+2];
-                            String precioBoleto = parts[i+3];
-                            // Buscar el boleto por nombre y agregarlo a la lista de boletos en posesión
-                            Boleto boleto = new Boleto(destinoBoleto, terminalBoleto, horarioBoleto, precioBoleto);
-                            boletosPosecion.add(boleto);
-                            
-                        }
-
-                    }
-                    // Crear un objeto Cliente y agregarlo a la lista y al mapa
-                    Cliente cliente = new Cliente(nombreUsuario, rut, contra);
-                    cliente.agregarBoletosImportados(boletosPosecion);
-                    listaClientes.add(cliente);
-                    mapaClientes.put(rut, cliente);
-                }
-            }
-        } 
-        catch (IOException e) {
-            e.printStackTrace();
-        }    
-
-    }*/
     
     public ArrayList<String> getCiudades()
     {
