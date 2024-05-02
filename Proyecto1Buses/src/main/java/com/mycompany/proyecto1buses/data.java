@@ -28,7 +28,7 @@ public class data {
         listaCiudades = new ArrayList<>();
     }
 
-    // Métodos 
+    //Métodos 
 
     // Agrega Ciudad al catálogo de ciudades
     public void agregarCiudad(CiudadV ciudad) {
@@ -103,23 +103,6 @@ public class data {
         return agregarCliente(cliente);
     }
     
-    public boolean eliminarCliente(String key) {
-        Cliente clienteAEliminar = null;
-        for (Cliente cliente : listaClientes) {
-            if (cliente.getNombreUsuario().equals(key)) {
-                clienteAEliminar = cliente;
-                break;
-            }
-        }
-        if (clienteAEliminar != null) {
-            listaClientes.remove(clienteAEliminar);
-            mapaClientes.remove(key);
-            return true;
-        } else {
-            return false; 
-        }
-    }
-    
     public void mostrarClientes() {
         System.out.println("Lista de clientes:");
         if (listaClientes.isEmpty()) {
@@ -130,27 +113,6 @@ public class data {
                 System.out.println("Rut: " + cliente.getRut());
                 System.out.println("----------------------");
             }
-        }
-    }
-    
-    public boolean mostrarCiudades() {
-        System.out.println("Catálogo de ciudades del terminal de buses:");
-        if (listaCiudades.isEmpty()) {
-            System.out.println("No hay ciudades por el momento.");
-            return false;
-        } else {
-            for (CiudadV ciudad : listaCiudades) {
-                System.out.println("----------------------");
-                System.out.println("Nombre: " + ciudad.getNombre());
-                for (Terminal terminal : ciudad.getTerminales()) {
-                    System.out.println("Terminal: " + terminal.getNombre());
-                    for (HorarioV horario : terminal.getHorarios()) {
-                        System.out.println("Horario: " + horario.getHora() + ", Cupos: " + horario.getCupos() + ", Precio: " + horario.getPrecio());
-                    }
-                }
-                System.out.println("----------------------");
-            }
-            return true;
         }
     }
 
@@ -167,6 +129,19 @@ public class data {
     
     public Cliente iniciarSesion(String nombre, String password)
     {
+        try{
+            if(nombre == null){
+                throw new NombreInvalidoException("Nombre invalido, NO existe Cliente");
+            }
+            if(password == null){
+                throw new ContraInvalidaException("Contraseña invalida, NO existe Cliente");
+            }
+            
+        }catch (NombreInvalidoException i){
+            System.out.println(i.getMessage());
+        }catch (ContraInvalidaException k){
+            System.out.println(k.getMessage());
+        }
         if(mapaClientes.containsKey(nombre))
         {
             Cliente client = mapaClientes.get(nombre);
@@ -180,6 +155,15 @@ public class data {
     
     public boolean existeCliente(String rut)
     {
+        try{
+            if(rut == null){
+                throw new RutInvalidoException("RUT invalido, NO existe Cliente");
+            }
+            
+        }catch (RutInvalidoException a){
+            System.out.println(a.getMessage());
+            return false;
+        }
         if(mapaClientes.containsKey(rut))
         {
             return true;
@@ -202,9 +186,9 @@ public class data {
             //se obtienen los nombres de los boletos tomados por el cliente
             ArrayList<Boleto> boletosCliente = cliente.getBoletosEnPosesion();
 
-            /*if(boletosCliente.size() > 0) {
-                writer.write(",");
-            }*/
+//            if(boletosCliente.size() > 0) {
+//                writer.write(",");
+//            }
 
             //se escriben en la linea de texto
             for(int i = 0 ; i < boletosCliente.size() ; i++) {
@@ -227,10 +211,50 @@ public class data {
         e.printStackTrace();
     }
     }
-
-
-
+    
     public void importarClientes(String archivo) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            if (parts.length >= 3) {
+                // Asignación de los datos del cliente
+                String nombreUsuario = parts[0];
+                String rut = parts[1].trim();
+                String contra = parts[2];
+
+                ArrayList<Boleto> boletosPosecion = new ArrayList<>();
+                if(parts.length >= 7) {
+                    for (int i = 3; i < parts.length; i+=4) {
+                        if(parts[i].isEmpty()) {
+                            i++;
+                        }
+                        String ciudadBoleto = parts[i];
+                        String terminalBoleto = parts[i+1];
+                        String horarioBoleto = parts[i+2];
+                        String precioBoleto = parts[i+3];
+
+                        // Crear un nuevo boleto y agregarlo a la lista de boletos en posesión
+                        Boleto boleto = new Boleto(ciudadBoleto, terminalBoleto, horarioBoleto, precioBoleto);
+                        boletosPosecion.add(boleto);
+                    }
+                }
+                // Crear un objeto Cliente y agregarlo a la lista y al mapa
+                Cliente cliente = new Cliente(nombreUsuario, rut, contra);
+                cliente.agregarBoletosImportados(boletosPosecion);
+                listaClientes.add(cliente);
+                mapaClientes.put(rut, cliente);
+            }
+        }
+    } 
+    catch (IOException e) {
+        e.printStackTrace();
+    }    
+}
+
+
+
+    /*public void importarClientes(String archivo) {
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -268,7 +292,7 @@ public class data {
             e.printStackTrace();
         }    
 
-    }
+    }*/
     
     public ArrayList<String> getCiudades()
     {
