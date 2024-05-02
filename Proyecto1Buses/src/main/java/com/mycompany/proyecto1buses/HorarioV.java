@@ -7,9 +7,9 @@ package com.mycompany.proyecto1buses;
 public class HorarioV {
     private String hora;
     private int cupos;
-    private int precio;
+    private String precio;
 
-    public HorarioV(String hora, int cupos, int precio) {
+    public HorarioV(String hora, int cupos, String precio) {
         this.hora = hora;
         this.cupos = cupos;
         this.precio = precio;
@@ -32,11 +32,11 @@ public class HorarioV {
         this.cupos = cupos;
     }
 
-    public int getPrecio() {
+    public String getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(String precio) {
         this.precio = precio;
     }
 }

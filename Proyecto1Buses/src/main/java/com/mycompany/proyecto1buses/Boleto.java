@@ -11,9 +11,9 @@ public class Boleto {
     private String ciudadDestino;
     private String terminalDestino;
     private String horarioDestino;
-    private double valorBoleto;
+    private String valorBoleto;
 
-    public Boleto(String ciudadDestino, String terminalDestino, String horarioDestino, double valorBoleto) {
+    public Boleto(String ciudadDestino, String terminalDestino, String horarioDestino, String valorBoleto) {
 //        this.nombrePropietario = nombrePropietario;
 //        this.RUT = RUT;
         this.ciudadDestino = ciudadDestino;
@@ -62,11 +62,11 @@ public class Boleto {
         this.horarioDestino = horarioDestino;
     }
 
-    public double getValorBoleto() {
+    public String getValorBoleto() {
         return valorBoleto;
     }
 
-    public void setValorBoleto(double valorBoleto) {
+    public void setValorBoleto(String valorBoleto) {
         this.valorBoleto = valorBoleto;
     }
 

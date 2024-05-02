@@ -31,7 +31,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="boletoPanel" min="-2" pref="456" max="-2" attributes="0"/>
+                      <Component id="boletoScroll" min="-2" pref="456" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="214" max="-2" attributes="0"/>
@@ -48,7 +48,7 @@
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="boletoPanel" min="-2" pref="213" max="-2" attributes="0"/>
+              <Component id="boletoScroll" min="-2" pref="213" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton1" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="35" max="32767" attributes="0"/>
@@ -65,7 +65,7 @@
         <Property name="text" type="java.lang.String" value="Mis Boletos"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JScrollPane" name="boletoPanel">
+    <Container class="javax.swing.JScrollPane" name="boletoScroll">
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
     </Container>

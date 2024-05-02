@@ -52,7 +52,7 @@ public class data {
                         String[] datosHorario = horario.trim().split(" ");
                         String hora = datosHorario[0];
                         int cupos = Integer.parseInt(datosHorario[1]);
-                        int precio = Integer.parseInt(datosHorario[2]);
+                        String precio = datosHorario[2];
                         terminal.agregarHorario(new HorarioV(hora, cupos, precio));
                     }
                     CiudadV ciudad = mapaCiudades.get(nombreCiudad);
@@ -249,9 +249,8 @@ public class data {
                             String terminalBoleto = parts[i+1];
                             String horarioBoleto = parts[i+2];
                             String precioBoleto = parts[i+3];
-                            int precioBoletoInt = Integer.parseInt(precioBoleto);
                             // Buscar el boleto por nombre y agregarlo a la lista de boletos en posesión
-                            Boleto boleto = new Boleto(destinoBoleto, terminalBoleto, horarioBoleto, precioBoletoInt);
+                            Boleto boleto = new Boleto(destinoBoleto, terminalBoleto, horarioBoleto, precioBoleto);
                             boletosPosecion.add(boleto);
                             
                         }

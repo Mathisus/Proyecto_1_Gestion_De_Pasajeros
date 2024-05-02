@@ -244,16 +244,18 @@ public class Comprar extends javax.swing.JFrame {
         String horarioDestino = (String) HorariosJCombo.getSelectedItem();
         int cantidadBoletos = Integer.parseInt((String) CantidadJCombo.getSelectedItem());
         HorarioV horario = db.buscarHorarioPorHora(horarioDestino);
-        int valorBoleto = horario.getPrecio();
+        String valorBoleto = horario.getPrecio();
+        int valorBoletoInt = Integer.parseInt(valorBoleto);
+
         
-        int costoTotal = valorBoleto * cantidadBoletos;
+        int costoTotal = valorBoletoInt * cantidadBoletos;
 
         // Muestra el costo total en el JLabel
         labelValorBoleto.setText("Valor total: " + costoTotal);
 
         // Crea los boletos y añádelos a la lista del cliente
         for (int i = 0; i < cantidadBoletos; i++) {
-            Boleto nuevoBoleto = new Boleto(cliente.getNombreUsuario(), cliente.getRut(), ciudadDestino, terminalDestino, horarioDestino, valorBoleto);
+            Boleto nuevoBoleto = new Boleto(ciudadDestino, terminalDestino, horarioDestino, valorBoleto);
             cliente.getBoletosEnPosesion().add(nuevoBoleto);
         }
 
@@ -274,7 +276,7 @@ public class Comprar extends javax.swing.JFrame {
                     // Asumiendo que tienes un método que devuelve el horario basado en su nombre
                     HorarioV horario = db.buscarHorarioPorHora(horarioSeleccionado); 
                     CantidadJCombo.removeAllItems();
-                    int precioBoleto = horario.getPrecio();
+                    String precioBoleto = horario.getPrecio();
 
                     for(int i = 1; i <= horario.getCupos(); i++) {
                         CantidadJCombo.addItem(Integer.toString(i));

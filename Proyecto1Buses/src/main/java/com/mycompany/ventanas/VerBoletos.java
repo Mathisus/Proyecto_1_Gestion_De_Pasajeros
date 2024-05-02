@@ -5,7 +5,13 @@
 package com.mycompany.ventanas;
 import com.mycompany.proyecto1buses.Cliente;
 import com.mycompany.proyecto1buses.data;
+import com.mycompany.proyecto1buses.Boleto;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import java.awt.GridLayout;
+import javax.swing.BoxLayout;
+
 
 /**
  *
@@ -15,13 +21,39 @@ public class VerBoletos extends javax.swing.JFrame {
     
     private data db;
     private Cliente cliente;
+    
+
 
     /**
      * Creates new form VerBoletos
      */
-    public VerBoletos() {
-        initComponents();
+    public VerBoletos(data db, Cliente cliente) {
+        this.setLocationRelativeTo(null);
+        this.db = db;
+        this.cliente = cliente;
+        initComponents();  
+        mostrarBoletos();
+    }
+    
+    private void mostrarBoletos(){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        for (Boleto boleto : cliente.getBoletosEnPosesion()) {
+            JPanel boletoPanel = new JPanel();
+            boletoPanel.setLayout(new GridLayout(1, 4)); // Ajusta esto según la información que quieras mostrar del boleto
+
+            // Agrega la información del boleto a boletoPanel
+            // Por ejemplo:
+            boletoPanel.add(new JLabel("Ciudad Destino: " + boleto.getCiudadDestino()));
+            boletoPanel.add(new JLabel("Terminal: " + boleto.getTerminalDestino()));
+            boletoPanel.add(new JLabel("Hora: " + boleto.getHorarioDestino()));
+            boletoPanel.add(new JLabel("Precio: " + boleto.getValorBoleto()));
+
+            panel.add(boletoPanel);
+        }
         
+        boletoScroll.setViewportView(panel);
     }
 
     /**
@@ -34,7 +66,7 @@ public class VerBoletos extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        boletoPanel = new javax.swing.JScrollPane();
+        boletoScroll = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -60,7 +92,7 @@ public class VerBoletos extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(boletoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(boletoScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(214, 214, 214)
                         .addComponent(jButton1)))
@@ -72,7 +104,7 @@ public class VerBoletos extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(boletoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(boletoScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(35, Short.MAX_VALUE))
@@ -88,26 +120,8 @@ public class VerBoletos extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    JPanel panel = new JPanel();
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-    for (Boleto boleto : usuario.getBoletosEnPosesion()) {
-        JPanel boletoPanel = new JPanel();
-        boletoPanel.setLayout(new GridLayout(1, 4)); // Ajusta esto según la información que quieras mostrar del boleto
-
-        // Agrega la información del boleto a boletoPanel
-        // Por ejemplo:
-        boletoPanel.add(new JLabel("Origen: " + boleto.getOrigen()));
-        boletoPanel.add(new JLabel("Destino: " + boleto.getDestino()));
-        boletoPanel.add(new JLabel("Fecha: " + boleto.getFecha()));
-        boletoPanel.add(new JLabel("Precio: " + boleto.getPrecio()));
-
-        panel.add(boletoPanel);
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane boletoPanel;
+    private javax.swing.JScrollPane boletoScroll;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables

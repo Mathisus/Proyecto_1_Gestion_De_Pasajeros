@@ -78,6 +78,11 @@ public class MenuCliente extends javax.swing.JFrame {
 
         anularBoleto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         anularBoleto.setText("Anular Boleto");
+        anularBoleto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anularBoletoActionPerformed(evt);
+            }
+        });
 
         cerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cerrarSesion.setText("Cerrar Sesion");
@@ -154,6 +159,13 @@ public class MenuCliente extends javax.swing.JFrame {
         ver.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_verBoletosActionPerformed
+
+    private void anularBoletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anularBoletoActionPerformed
+        // TODO add your handling code here:
+        AnularBoleto ab = new AnularBoleto(db,cliente);
+        ab.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_anularBoletoActionPerformed
 
     /**
      * @param args the command line arguments
