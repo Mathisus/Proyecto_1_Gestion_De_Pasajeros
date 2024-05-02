@@ -162,7 +162,7 @@ public class data {
             
         }catch (RutInvalidoException a){
             System.out.println(a.getMessage());
-            return false;
+            return true;
         }
         if(mapaClientes.containsKey(rut))
         {
